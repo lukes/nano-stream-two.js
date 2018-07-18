@@ -2,7 +2,7 @@
 
 A visualization of a [Nano](https://nano.org) cryptocurrency block stream from [nano-stream-ws](https://github.com/lukes/nano-stream-ws) using two.js.
 
-## Building
+## Build
 
 Install the dependencies:
 

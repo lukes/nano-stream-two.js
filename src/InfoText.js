@@ -18,7 +18,6 @@ export default class InfoText extends Two.Text {
     this.data = data;
     this.data.seen = (new Date).getTime() / 1000;
 
-    // const message = 'My message';
     // TODO logic to keep in view
     const x = circle.translation.x + circle.radius + InfoText.spacing;
     const y = circle.translation.y + circle.radius + InfoText.spacing;

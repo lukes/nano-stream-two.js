@@ -1,5 +1,3 @@
-// import Circle from './Circle';
-// import InfoText from './InfoText';
 import Group from './Group';
 
 import two from './two';

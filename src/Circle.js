@@ -7,17 +7,10 @@ export default class Circle extends Two.Circle {
     super();
 
     this.data = data;
-
-    this.radius = Math.min(Math.max(data.amount, 3), 250);;
-
-    const x = this.randomX();
-    const y = this.randomY();
-    this.translation.set(x, y);
-
+    this.radius = Math.min(Math.max(data.amount, 3), 250);
+    this.translation.set(this.randomX(), this.randomY());
     this.fill = `#${data.hash.slice(0, 6)}`;
     this.noStroke();
-
-    console.log(this);
   }
 
   didMount() {
@@ -47,14 +40,14 @@ export default class Circle extends Two.Circle {
   }
 
   randomX() {
-    return this.randomXOrY(document.body.clientWidth);
+    return this.randomCoord(document.body.clientWidth);
   }
 
   randomY() {
-    return this.randomXOrY(document.body.clientHeight);
+    return this.randomCoord(document.body.clientHeight);
   }
 
-  randomXOrY(clientDimension) {
+  randomCoord(clientDimension) {
     return this.radius + Math.trunc(Math.random() * (clientDimension - (this.radius * 2)));
   }
 }

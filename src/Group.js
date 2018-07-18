@@ -53,14 +53,13 @@ export default class Group extends Two.Group {
   onUpdate(/* frameCount */) {
     if (this.opacity <= 0.05) return this.dispose();
 
-    // maybe this could be a factor of age - so
-    // when you focus the tab after a period of it not being focused
-    // everything is opaque correctly
-    this.opacityCache -= this.opacityCache * 0.0002;
-
     if (this.isSelected) {
       this.opacity = 1;
     } else {
+      // maybe this could be a factor of age - so
+      // when you focus the tab after a period of it not being focused
+      // everything is opaque correctly
+      this.opacityCache -= this.opacityCache * 0.0002;
       this.opacity = this.opacityCache;
     }
 

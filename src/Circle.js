@@ -8,11 +8,10 @@ export default class Circle extends Two.Circle {
 
     this.data = data;
 
-    const radius = Math.min(Math.max(data.amount, 3), 250);
-    const x = radius + Math.trunc(Math.random() * (document.body.clientWidth - (radius * 2)));
-    const y = radius + Math.trunc(Math.random() * (document.body.clientHeight - (radius * 2)));
+    this.radius = Math.min(Math.max(data.amount, 3), 250);;
 
-    this.radius = radius;
+    const x = this.randomX();
+    const y = this.randomY();
     this.translation.set(x, y);
 
     this.fill = `#${data.hash.slice(0, 6)}`;
@@ -45,5 +44,17 @@ export default class Circle extends Two.Circle {
   onUpdate(/* frameCount */) {
     // No-op for now
     return this;
+  }
+
+  randomX() {
+    return this.randomXOrY(document.body.clientWidth);
+  }
+
+  randomY() {
+    return this.randomXOrY(document.body.clientHeight);
+  }
+
+  randomXOrY(clientDimension) {
+    return this.radius + Math.trunc(Math.random() * (clientDimension - (this.radius * 2)));
   }
 }

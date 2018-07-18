@@ -3,7 +3,7 @@ import Two from 'two.js';
 import two from './two';
 
 const formatTime = (seconds) => {
-  if (seconds <91) {
+  if (seconds < 91) {
     return `${Math.trunc(seconds)}s ago`;
   }
 
@@ -32,9 +32,9 @@ export default class InfoText extends Two.Text {
   get message() {
     const now = (new Date).getTime() / 1000;
     const seen = this.data.seen;
+    const sentOrReceived = this.data.is_send ? 'sent' : 'received';
 
-    // TODO check what a receive looks like
-    return `${formatTime(now - seen)}\n\n${this.data.amount} ${this.data.is_send ? 'sent' : 'received'}`;
+    return `${formatTime(now - seen)} ${this.data.amount} ${sentOrReceived}`;
   }
 
   didMount() {

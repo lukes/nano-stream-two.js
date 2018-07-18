@@ -4,13 +4,17 @@ import two from './two';
 
 export default class Circle extends Two.Circle {
   constructor(data) {
+    super();
+
+    this.data = data;
+
     const radius = Math.min(Math.max(data.amount, 3), 250);
     const x = radius + Math.trunc(Math.random() * (document.body.clientWidth - (radius * 2)));
     const y = radius + Math.trunc(Math.random() * (document.body.clientHeight - (radius * 2)));
 
-    super(x, y, radius);
+    this.radius = radius;
+    this.translation.set(x, y);
 
-    this.data = data;
     this.fill = `#${data.hash.slice(0, 6)}`;
     this.noStroke();
 

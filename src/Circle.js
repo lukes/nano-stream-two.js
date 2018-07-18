@@ -43,13 +43,7 @@ export default class Circle extends Two.Circle {
   }
 
   onUpdate(/* frameCount */) {
-    if (this.opacity <= 0.05) return this.dispose();
-
-    // maybe this could be a factor of age - so
-    // when you focus the tab after a period of it not being focused
-    // everything is opaque correctly
-    this.opacity -= this.opacity * 0.0002;
-
-    return null;
+    // No-op for now
+    return this;
   }
 }

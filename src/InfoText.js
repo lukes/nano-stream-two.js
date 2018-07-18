@@ -46,12 +46,9 @@ export default class InfoText extends Two.Text {
   }
 
   onUpdate(/* frameCount */) {
-    if (this.opacity <= 0.05) return this.dispose();
-
     this.value = this.message;
-    this.opacity -= this.opacity * 0.0002;
 
-    return null;
+    return this;
   }
 }
 

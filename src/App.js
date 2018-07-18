@@ -1,19 +1,15 @@
-import Circle from './Circle';
-import InfoText from './InfoText';
+// import Circle from './Circle';
+// import InfoText from './InfoText';
+import Group from './Group';
 
 import two from './two';
 import websocket from './websocket';
 
 export default () => {
   const receiveData = (data) => {
-    const circle = new Circle(data);
-    two.scene.add(circle);
-    circle.didMount();
-
-    // TODO use a Two.Group
-    const text = new InfoText(circle, data);
-    two.scene.add(text);
-    text.didMount();
+    const group = new Group(data);
+    two.scene.add(group);
+    group.didMount();
   };
 
   two.appendTo(document.body);

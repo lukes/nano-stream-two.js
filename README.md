@@ -8,6 +8,10 @@ Install the dependencies:
 
     npm i
 
-Then start the development server:
+Start the development server:
 
     npm run start
+
+Build for production:
+
+    npm run build

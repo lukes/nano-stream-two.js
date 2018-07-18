@@ -31,12 +31,8 @@ export default class Group extends Two.Group {
 
     const { elem } = this._renderer;
 
-    // TODO this listening will have to be bound to Circle
-    // and the property still set on the Group, unless we can
-    // check what the mouse if over here and ignore non-Circles
     elem.addEventListener('mouseover', () => {
       this.isSelected = true;
-      console.log(this);
     }, false);
 
     elem.addEventListener('mouseout', () => {
@@ -46,7 +42,7 @@ export default class Group extends Two.Group {
 
   dispose() {
     two.remove(this).unbind('update', this.onUpdate);
-    // TODO call dispose on this.children if possible
+    // TODO call dispose on this.children
     console.debug(`disposed ${this.id}`);
   }
 

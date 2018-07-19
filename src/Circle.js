@@ -7,7 +7,8 @@ export default class Circle extends Two.Circle {
     super();
 
     this.data = data;
-    this.radius = Math.min(Math.max(data.amount, 3), 250);
+
+    this.radius = this.calculateRadius();
     this.translation.set(this.randomX(), this.randomY());
     this.fill = `#${data.hash.slice(0, 6)}`;
     this.noStroke();
@@ -39,6 +40,25 @@ export default class Circle extends Two.Circle {
     return this;
   }
 
+  // Returns a radius determined by the amount of NANO in the data,
+  // boxed within a min and max size
+  calculateRadius() {
+    const radius = Circle.radiusFromArea(this.data.amount * 200);
+    return Math.min(Math.max(radius, Circle.MinRadius), Circle.maxRadius());
+  }
+
+  static radiusFromArea(area) {
+    return Math.sqrt(area / Math.PI);
+  }
+
+  // Returns the largest size a radius can be, based on being 2/3rds of the available screen
+  static maxRadius() {
+    const smallestClientDimension = Math.min(window.innerWidth, window.innerHeight);
+    const maxDiameter = smallestClientDimension * (1 / 6);
+
+    return Math.trunc(maxDiameter / 2);
+  }
+
   randomX() {
     return this.randomCoord(document.body.clientWidth);
   }
@@ -51,3 +71,5 @@ export default class Circle extends Two.Circle {
     return this.radius + Math.trunc(Math.random() * (clientDimension - (this.radius * 2)));
   }
 }
+
+Circle.MinRadius = 3;

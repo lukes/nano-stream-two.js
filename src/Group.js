@@ -11,8 +11,6 @@ export default class Group extends Two.Group {
     this.data = data;
     this.isFocused = false;
     this.opacityCache = this.opacity;
-
-    console.debug(this);
   }
 
   get isNewestGroup() {
@@ -20,8 +18,6 @@ export default class Group extends Two.Group {
   }
 
   didMount() {
-    console.debug(`Added Group ${this.id}`);
-
     const circle = new Circle(this.data);
     this.add(circle);
     circle.didMount();
@@ -36,7 +32,6 @@ export default class Group extends Two.Group {
   dispose() {
     two.remove(this).unbind('update', this.onUpdate);
     // TODO call dispose on this.children
-    console.debug(`disposed ${this.id}`);
   }
 
   onUpdate(/* frameCount */) {

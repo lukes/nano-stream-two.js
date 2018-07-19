@@ -27,8 +27,6 @@ export default class Text extends Two.Text {
 
     this.value = this.message;
     this.translation.set(x, y);
-
-    console.debug(this);
   }
 
   get message() {

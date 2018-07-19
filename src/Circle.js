@@ -7,7 +7,6 @@ export default class Circle extends Two.Circle {
     super();
 
     this.data = data;
-
     this.radius = this.calculateRadius();
     this.translation.set(this.randomX(), this.randomY());
     this.fill = `#${data.hash.slice(0, 6)}`;
@@ -15,8 +14,6 @@ export default class Circle extends Two.Circle {
   }
 
   didMount() {
-    console.debug(`Added ${this.id}`);
-
     two.bind('update', this.onUpdate.bind(this));
     two.update(); // Force update so we have an element to work with
 

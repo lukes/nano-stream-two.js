@@ -1,4 +1,5 @@
 import Group from './Group';
+import Background from './Background';
 
 import two from './two';
 import websocket from './websocket';
@@ -11,6 +12,7 @@ export default () => {
   };
 
   two.appendTo(document.body);
+  two.scene.add(new Background());
 
   websocket.onmessage = (ev) => {
     receiveData(JSON.parse(ev.data));

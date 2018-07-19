@@ -70,11 +70,12 @@ export default class Circle extends Two.Circle {
   // Returns the largest size a radius can be, based on being 2/3rds of the available screen
   static get maxRadius() {
     const smallestClientDimension = Math.min(window.innerWidth, window.innerHeight);
-    const maxDiameter = smallestClientDimension * (1 / 6);
+    const maxDiameter = smallestClientDimension * (5 / 6);
 
     return Math.trunc(maxDiameter / 2);
   }
 
+  // TODO these will need to be reevaluated on body resize
   deterministicX() {
     const rgbArray = this.colorFromWork.rgb().array();
     const ratio = (rgbArray[0] + rgbArray[2]) / (255 + 255);

@@ -9,7 +9,7 @@ export default class Group extends Two.Group {
     super();
 
     this.data = data;
-    this.isSelected = false;
+    this.isFocused = false;
     this.opacityCache = this.opacity;
 
     console.debug(this);
@@ -31,17 +31,6 @@ export default class Group extends Two.Group {
     text.didMount();
 
     two.bind('update', this.onUpdate.bind(this));
-    two.update(); // Force update so we have an element to work with
-
-    const { elem } = this._renderer;
-
-    elem.addEventListener('mouseover', () => {
-      this.isSelected = true;
-    }, false);
-
-    elem.addEventListener('mouseout', () => {
-      this.isSelected = false;
-    }, false);
   }
 
   dispose() {
@@ -53,7 +42,7 @@ export default class Group extends Two.Group {
   onUpdate(/* frameCount */) {
     if (this.opacity <= 0.05) return this.dispose();
 
-    if (this.isSelected) {
+    if (this.isFocused) {
       this.opacity = 1;
     } else {
       // maybe this could be a factor of age - so

@@ -40,7 +40,9 @@ export default class Text extends Two.Text {
   }
 
   get visible() {
-    return this.parent.isNewestGroup || this.parent.isSelected;
+    return this.parent.isNewestGroup || this.parent.isFocused;
+  }
+
   }
 
   didMount() {

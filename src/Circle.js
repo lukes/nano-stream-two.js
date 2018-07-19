@@ -25,8 +25,15 @@ export default class Circle extends Two.Circle {
     elem.style = 'cursor:pointer';
 
     elem.addEventListener('mousedown', () => {
-      console.log(this);
       console.log(this.data);
+    }, false);
+
+    elem.addEventListener('mouseover', () => {
+      this.parent.isFocused = true;
+    }, false);
+
+    elem.addEventListener('mouseout', () => {
+      this.parent.isFocused = false;
     }, false);
   }
 

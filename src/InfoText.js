@@ -33,7 +33,7 @@ export default class InfoText extends Two.Text {
     const { seen } = this.data;
     const sentOrReceived = this.data.is_send ? 'sent' : 'received';
 
-    return `${formatTime(now - seen)} ${this.data.amount} ${sentOrReceived}`;
+    return `${formatTime(now - seen)} ${this.data.amount} ${sentOrReceived}`; // TODO handle formatting e- values.
   }
 
   get visible() {

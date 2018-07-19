@@ -1,4 +1,5 @@
 import Two from 'two.js';
+import TWEEN from '@tweenjs/tween.js';
 
 import two from './two';
 
@@ -17,6 +18,8 @@ export default class Text extends Two.Text {
     this.circle = circle;
     this.data = data;
     this.data.seen = (new Date()).getTime() / 1000;
+
+    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
 
     // TODO logic to keep in view
     const x = circle.translation.x + circle.radius + Text.SPACING;
@@ -50,12 +53,21 @@ export default class Text extends Two.Text {
 
   onUpdate(/* frameCount */) {
     if (!this.visible) {
-      this.opacity = 0;
+      if (!this.fadeOutTween.isPlaying() && this.ageInSeconds > 3) {
+        this.fadeOutTween.start();
+        console.debug(`Started fadeOutTween for ${this.id}`);
+      }
+
+      TWEEN.update();
     } else {
       this.opacity = 1;
       this.value = this.message;
-    }
 
+      if (this.fadeOutTween.isPlaying()) {
+        this.fadeOutTween.stop();
+        console.debug(`Stopped fadeOutTween for ${this.id}`);
+      }
+    }
     return this;
   }
 }

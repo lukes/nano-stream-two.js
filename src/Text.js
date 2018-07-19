@@ -11,13 +11,15 @@ const formatTime = (seconds) => {
   return `${Math.trunc(seconds / 60)}m ago`;
 };
 
+const unixTimeNow = () => (new Date()).getTime() / 1000;
+
 export default class Text extends Two.Text {
   constructor(circle, data) {
     super();
 
     this.circle = circle;
     this.data = data;
-    this.data.seen = (new Date()).getTime() / 1000;
+    this.seen = unixTimeNow();
 
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
 
@@ -40,9 +42,7 @@ export default class Text extends Two.Text {
   }
 
   get ageInSeconds() {
-    const now = (new Date()).getTime() / 1000;
-    const { seen } = this.data;
-    return now - seen;
+    return unixTimeNow() - this.seen;
   }
 
   didMount() {

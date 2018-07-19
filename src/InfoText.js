@@ -16,7 +16,7 @@ export default class InfoText extends Two.Text {
 
     this.circle = circle;
     this.data = data;
-    this.data.seen = (new Date).getTime() / 1000;
+    this.data.seen = (new Date()).getTime() / 1000;
 
     // TODO logic to keep in view
     const x = circle.translation.x + circle.radius + InfoText.spacing;
@@ -29,8 +29,8 @@ export default class InfoText extends Two.Text {
   }
 
   get message() {
-    const now = (new Date).getTime() / 1000;
-    const seen = this.data.seen;
+    const now = (new Date()).getTime() / 1000;
+    const { seen } = this.data;
     const sentOrReceived = this.data.is_send ? 'sent' : 'received';
 
     return `${formatTime(now - seen)} ${this.data.amount} ${sentOrReceived}`;

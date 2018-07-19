@@ -12,7 +12,10 @@ export default () => {
   };
 
   two.appendTo(document.body);
-  two.scene.add(new Background());
+
+  const background = new Background();
+  two.scene.add(background);
+  background.didMount();
 
   websocket.onmessage = (ev) => {
     receiveData(JSON.parse(ev.data));

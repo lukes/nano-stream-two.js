@@ -23,4 +23,10 @@ export default class Background extends Two.Rectangle {
     this.noStroke();
     this.fill = linearGradient;
   }
+
+  didMount() {
+    two.bind('resize', () => {
+      // TODO redraw the background
+    });
+  }
 }

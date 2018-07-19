@@ -11,7 +11,7 @@ const formatTime = (seconds) => {
   return `${Math.trunc(seconds / 60)}m ago`;
 };
 
-const unixTimeNow = () => (new Date()).getTime() / 1000;
+const timeNow = () => (new Date()).getTime() / 1000;
 
 export default class Text extends Two.Text {
   constructor(circle, data) {
@@ -19,7 +19,7 @@ export default class Text extends Two.Text {
 
     this.circle = circle;
     this.data = data;
-    this.timestamp = unixTimeNow();
+    this.timestamp = timeNow();
 
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
 
@@ -42,7 +42,7 @@ export default class Text extends Two.Text {
   }
 
   get ageInSeconds() {
-    return unixTimeNow() - this.timestamp;
+    return timeNow() - this.timestamp;
   }
 
   didMount() {

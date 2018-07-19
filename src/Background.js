@@ -2,7 +2,7 @@ import Two from 'two.js';
 
 import two from './two';
 
-export default class Group extends Two.Rectangle {
+export default class Background extends Two.Rectangle {
   constructor() {
     super(two.width / 2, two.height / 2, two.width, two.height);
 

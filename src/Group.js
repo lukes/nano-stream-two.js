@@ -31,7 +31,7 @@ export default class Group extends Two.Group {
 
   dispose() {
     two.remove(this).unbind('update', this.onUpdate);
-    // TODO call dispose on this.children
+    this.children.forEach(child => child.dispose());
   }
 
   onUpdate(/* frameCount */) {

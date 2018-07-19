@@ -44,7 +44,7 @@ export default class Circle extends Two.Circle {
   // boxed within a min and max size
   calculateRadius() {
     const radius = Circle.radiusFromArea(this.data.amount * 200);
-    return Math.min(Math.max(radius, Circle.MinRadius), Circle.maxRadius());
+    return Math.min(Math.max(radius, Circle.MIN_RADIUS), Circle.maxRadius);
   }
 
   static radiusFromArea(area) {
@@ -52,7 +52,7 @@ export default class Circle extends Two.Circle {
   }
 
   // Returns the largest size a radius can be, based on being 2/3rds of the available screen
-  static maxRadius() {
+  static get maxRadius() {
     const smallestClientDimension = Math.min(window.innerWidth, window.innerHeight);
     const maxDiameter = smallestClientDimension * (1 / 6);
 
@@ -72,4 +72,4 @@ export default class Circle extends Two.Circle {
   }
 }
 
-Circle.MinRadius = 3;
+Circle.MIN_RADIUS = 3;

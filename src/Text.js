@@ -10,7 +10,7 @@ const formatTime = (seconds) => {
   return `${Math.trunc(seconds / 60)}m ago`;
 };
 
-export default class InfoText extends Two.Text {
+export default class Text extends Two.Text {
   constructor(circle, data) {
     super();
 
@@ -19,8 +19,8 @@ export default class InfoText extends Two.Text {
     this.data.seen = (new Date()).getTime() / 1000;
 
     // TODO logic to keep in view
-    const x = circle.translation.x + circle.radius + InfoText.spacing;
-    const y = circle.translation.y + circle.radius + InfoText.spacing;
+    const x = circle.translation.x + circle.radius + Text.SPACING;
+    const y = circle.translation.y + circle.radius + Text.SPACING;
 
     this.value = this.message;
     this.translation.set(x, y);
@@ -60,4 +60,4 @@ export default class InfoText extends Two.Text {
   }
 }
 
-InfoText.spacing = 20;
+Text.SPACING = 20;

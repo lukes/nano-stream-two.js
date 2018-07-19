@@ -1,6 +1,6 @@
 import Two from 'two.js';
 import Circle from './Circle';
-import InfoText from './InfoText';
+import Text from './Text';
 
 import two from './two';
 
@@ -26,7 +26,7 @@ export default class Group extends Two.Group {
     this.add(circle);
     circle.didMount();
 
-    const text = new InfoText(circle, this.data);
+    const text = new Text(circle, this.data);
     this.add(text);
     text.didMount();
 

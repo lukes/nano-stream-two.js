@@ -67,10 +67,10 @@ export default class Circle extends Two.Circle {
     return Math.sqrt(area / Math.PI);
   }
 
-  // Returns the largest size a radius can be, based on being 2/3rds of the available screen
+  // Returns the largest size a radius can be, based on being 1/3rd of the available screen
   static get maxRadius() {
     const smallestClientDimension = Math.min(window.innerWidth, window.innerHeight);
-    const maxDiameter = smallestClientDimension * (5 / 6);
+    const maxDiameter = smallestClientDimension * (1 / 3);
 
     return Math.trunc(maxDiameter / 2);
   }

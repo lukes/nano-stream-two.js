@@ -3,9 +3,7 @@ import Color from 'color';
 
 import two from './two';
 
-const hex = (string) => {
-  return `#${string.slice(0, 6)}`;
-};
+const hex = string => `#${string.slice(0, 6)}`;
 
 export default class Circle extends Two.Circle {
   constructor(data) {
@@ -90,7 +88,6 @@ export default class Circle extends Two.Circle {
 
     return this.radius + Math.trunc((ratio * document.body.clientHeight) - this.diameter);
   }
-
 }
 
 Circle.MIN_RADIUS = 3;

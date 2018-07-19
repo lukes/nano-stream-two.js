@@ -3,19 +3,28 @@ import Color from 'color';
 
 import two from './two';
 
+const hex = (string) => {
+  return `#${string.slice(0, 6)}`;
+};
+
 export default class Circle extends Two.Circle {
   constructor(data) {
     super();
 
-    const color = Color(`#${data.hash.slice(0, 6)}`)
+    this.colorFromBlockHash = Color(hex(data.hash));
+    this.colorFromWork = Color(hex(data.work));
+    this.rgbArrayFromWork = this.colorFromWork.rgb().array();
 
     this.data = data;
     this.radius = this.calculateRadius();
-    this.translation.set(this.randomX(), this.randomY());
-    this.fill = color.string();
-    this.stroke = color.lighten(0.4).saturate(1).string();
+    this.translation.set(this.deterministicX(), this.deterministicY());
+    this.fill = this.colorFromBlockHash.string();
+    this.stroke = this.colorFromBlockHash.lighten(0.4).saturate(1).string();
     this.lineWidth = 1;
-    // this.noStroke();
+  }
+
+  get diameter() {
+    return this.radius * 2;
   }
 
   didMount() {
@@ -27,7 +36,7 @@ export default class Circle extends Two.Circle {
     elem.style = 'cursor:pointer';
 
     elem.addEventListener('mousedown', () => {
-      console.log(this.data);
+      console.log(this);
     }, false);
 
     elem.addEventListener('mouseover', () => {
@@ -68,17 +77,20 @@ export default class Circle extends Two.Circle {
     return Math.trunc(maxDiameter / 2);
   }
 
-  randomX() {
-    return this.randomCoord(document.body.clientWidth);
+  deterministicX() {
+    const rgbArray = this.colorFromWork.rgb().array();
+    const ratio = (rgbArray[0] + rgbArray[2]) / (255 + 255);
+
+    return this.radius + Math.trunc((ratio * document.body.clientWidth) - this.diameter);
   }
 
-  randomY() {
-    return this.randomCoord(document.body.clientHeight);
+  deterministicY() {
+    const rgbArray = this.colorFromWork.rgb().array();
+    const ratio = (rgbArray[1] + rgbArray[2]) / (255 + 255);
+
+    return this.radius + Math.trunc((ratio * document.body.clientHeight) - this.diameter);
   }
 
-  randomCoord(clientDimension) {
-    return this.radius + Math.trunc(Math.random() * (clientDimension - (this.radius * 2)));
-  }
 }
 
 Circle.MIN_RADIUS = 3;

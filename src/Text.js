@@ -32,17 +32,19 @@ export default class Text extends Two.Text {
   }
 
   get message() {
-    const now = (new Date()).getTime() / 1000;
-    const { seen } = this.data;
     const sentOrReceived = this.data.is_send ? 'sent' : 'received';
 
-    return `${formatTime(now - seen)} ${this.data.amount} ${sentOrReceived}`; // TODO handle formatting e- values.
+    return `${formatTime(this.ageInSeconds)} ${this.data.amount} ${sentOrReceived}`; // TODO handle formatting e- values.
   }
 
   get visible() {
     return this.parent.isNewestGroup || this.parent.isFocused;
   }
 
+  get ageInSeconds() {
+    const now = (new Date()).getTime() / 1000;
+    const { seen } = this.data;
+    return now - seen;
   }
 
   didMount() {

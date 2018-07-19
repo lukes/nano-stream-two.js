@@ -43,6 +43,7 @@ export default class Group extends Two.Group {
       // maybe this could be a factor of age - so
       // when you focus the tab after a period of it not being focused
       // everything is opaque correctly
+      // TODO use tween for this too, to control timing.
       this.opacityCache -= this.opacityCache * 0.0002;
       this.opacity = this.opacityCache;
     }

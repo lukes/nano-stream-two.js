@@ -10,7 +10,9 @@ export default class Circle extends Two.Circle {
     this.radius = this.calculateRadius();
     this.translation.set(this.randomX(), this.randomY());
     this.fill = `#${data.hash.slice(0, 6)}`;
-    this.noStroke();
+    this.stroke = '#ccc';
+    this.lineWidth = 1;
+    // this.noStroke();
   }
 
   didMount() {

@@ -28,6 +28,7 @@ export default class Text extends Two.Text {
     const y = circle.translation.y + circle.radius + Text.SPACING;
 
     this.value = this.message;
+    this.fill = '#FFF';
     this.translation.set(x, y);
   }
 

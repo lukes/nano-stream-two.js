@@ -21,10 +21,13 @@ export default class Text extends Two.Text {
     this.data = data;
     this.timestamp = timeNow();
 
+    this.opacity = 0;
+    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(TWEEN.Easing.Quadratic.In);
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
+    this.fadeInTween.start();
 
     // TODO logic to keep in view
-    const x = circle.translation.x + circle.radius + Text.SPACING;
+    const { x } = circle.translation;
     const y = circle.translation.y + circle.radius + Text.SPACING;
 
     this.value = this.message;
@@ -55,20 +58,34 @@ export default class Text extends Two.Text {
   }
 
   onUpdate(/* frameCount */) {
+    // Fade in
     if (this.shouldBeOpaque) {
-      this.opacity = 1;
-      this.value = this.message;
-
-      if (this.fadeOutTween.isPlaying()) {
-        this.fadeOutTween.stop();
+      if (!this.fadeInTween.isPlaying() && this.opacity === 0) {
+        if (this.fadeOutTween.isPlaying()) {
+          this.fadeOutTween.stop();
+        }
+        this.fadeInTween.start();
       }
+
+      if (this.opacity < 1) {
+        TWEEN.update();
+      }
+    // Fade out
     } else {
-      if (!this.fadeOutTween.isPlaying() && this.opacity === 1 && this.ageInSeconds > 3) {
+      if (!this.fadeOutTween.isPlaying() && this.opacity === 1 && this.ageInSeconds > 5) {
+        if (this.fadeInTween.isPlaying()) {
+          this.fadeInTween.stop();
+        }
         this.fadeOutTween.start();
       }
 
-      TWEEN.update();
+      if (this.opacity > 0) {
+        TWEEN.update();
+      }
     }
+
+    if (this.opacity > 0) this.value = this.message;
+
     return this;
   }
 }

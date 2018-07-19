@@ -1,4 +1,5 @@
 import Two from 'two.js';
+import Color from 'color';
 
 import two from './two';
 
@@ -6,11 +7,13 @@ export default class Circle extends Two.Circle {
   constructor(data) {
     super();
 
+    const color = Color(`#${data.hash.slice(0, 6)}`)
+
     this.data = data;
     this.radius = this.calculateRadius();
     this.translation.set(this.randomX(), this.randomY());
-    this.fill = `#${data.hash.slice(0, 6)}`;
-    this.stroke = '#ccc';
+    this.fill = color.string();
+    this.stroke = color.lighten(0.4).saturate(1).string();
     this.lineWidth = 1;
     // this.noStroke();
   }

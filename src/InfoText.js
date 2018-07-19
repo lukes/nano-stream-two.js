@@ -8,7 +8,7 @@ const formatTime = (seconds) => {
   }
 
   return `${Math.trunc(seconds / 60)}m ago`;
-}
+};
 
 export default class InfoText extends Two.Text {
   constructor(circle, data) {
@@ -25,7 +25,7 @@ export default class InfoText extends Two.Text {
     this.value = this.message;
     this.translation.set(x, y);
 
-    console.log(this);
+    console.debug(this);
   }
 
   get message() {
@@ -34,6 +34,10 @@ export default class InfoText extends Two.Text {
     const sentOrReceived = this.data.is_send ? 'sent' : 'received';
 
     return `${formatTime(now - seen)} ${this.data.amount} ${sentOrReceived}`;
+  }
+
+  get visible() {
+    return this.parent.isNewestGroup || this.parent.isSelected;
   }
 
   didMount() {
@@ -45,7 +49,12 @@ export default class InfoText extends Two.Text {
   }
 
   onUpdate(/* frameCount */) {
-    this.value = this.message;
+    if (!this.visible) {
+      this.opacity = 0;
+    } else {
+      this.opacity = 1;
+      this.value = this.message;
+    }
 
     return this;
   }

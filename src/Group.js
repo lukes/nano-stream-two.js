@@ -12,7 +12,11 @@ export default class Group extends Two.Group {
     this.isSelected = false;
     this.opacityCache = this.opacity;
 
-    console.log(this);
+    console.debug(this);
+  }
+
+  get isNewestGroup() {
+    return this === this.parent.children.slice(-1)[0];
   }
 
   didMount() {

@@ -19,7 +19,7 @@ export default class Text extends Two.Text {
 
     this.circle = circle;
     this.data = data;
-    this.seen = unixTimeNow();
+    this.timestamp = unixTimeNow();
 
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
 
@@ -42,7 +42,7 @@ export default class Text extends Two.Text {
   }
 
   get ageInSeconds() {
-    return unixTimeNow() - this.seen;
+    return unixTimeNow() - this.timestamp;
   }
 
   didMount() {

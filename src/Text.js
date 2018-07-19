@@ -37,7 +37,7 @@ export default class Text extends Two.Text {
     return `${formatTime(this.ageInSeconds)} ${this.data.amount} ${sentOrReceived}`; // TODO handle formatting e- values.
   }
 
-  get visible() {
+  get shouldBeOpaque() {
     return this.parent.isNewestGroup || this.parent.isFocused;
   }
 
@@ -54,21 +54,19 @@ export default class Text extends Two.Text {
   }
 
   onUpdate(/* frameCount */) {
-    if (!this.visible) {
-      if (!this.fadeOutTween.isPlaying() && this.ageInSeconds > 3) {
-        this.fadeOutTween.start();
-        console.debug(`Started fadeOutTween for ${this.id}`);
-      }
-
-      TWEEN.update();
-    } else {
+    if (this.shouldBeOpaque) {
       this.opacity = 1;
       this.value = this.message;
 
       if (this.fadeOutTween.isPlaying()) {
         this.fadeOutTween.stop();
-        console.debug(`Stopped fadeOutTween for ${this.id}`);
       }
+    } else {
+      if (!this.fadeOutTween.isPlaying() && this.opacity === 1 && this.ageInSeconds > 3) {
+        this.fadeOutTween.start();
+      }
+
+      TWEEN.update();
     }
     return this;
   }

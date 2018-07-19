@@ -40,8 +40,8 @@ export default class Circle extends Two.Circle {
   }
 
   dispose() {
-    two.remove(this).unbind('update', this.onUpdate);
-    console.debug(`disposed ${this.id}`);
+    two.remove(this).unbind('update', this.onUpdate.bind(this));
+    delete this;
   }
 
   onUpdate(/* frameCount */) {

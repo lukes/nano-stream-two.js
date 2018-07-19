@@ -54,7 +54,8 @@ export default class Text extends Two.Text {
   }
 
   dispose() {
-    two.remove(this).unbind('update', this.onUpdate);
+    two.remove(this).unbind('update', this.onUpdate.bind(this));
+    delete this;
   }
 
   onUpdate(/* frameCount */) {

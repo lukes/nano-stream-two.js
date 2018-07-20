@@ -14,7 +14,7 @@ export default class Group extends Two.Group {
   }
 
   get isNewestGroup() {
-    return this === this.parent.children.slice(-1)[0];
+    return this === this.parent && this.parent.children.slice(-1)[0];
   }
 
   didMount() {

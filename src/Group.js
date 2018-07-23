@@ -1,5 +1,7 @@
 import Two from 'two.js';
+
 import Circle from './Circle';
+import Line from './Line';
 import Text from './Text';
 
 import two from './two';
@@ -18,13 +20,20 @@ export default class Group extends Two.Group {
   }
 
   didMount() {
-    const circle = new Circle(this.data);
-    this.add(circle);
-    circle.didMount();
+    this.circle = new Circle(this.data);
+    this.add(this.circle);
+    this.circle.didMount();
 
-    const text = new Text(circle, this.data);
-    this.add(text);
-    text.didMount();
+    this.text = new Text(this.circle, this.data);
+    this.add(this.text);
+    this.text.didMount();
+
+    const relatedGroup = this.findRelatedGroup();
+    if (relatedGroup) {
+      this.line = new Line(this.circle, relatedGroup.circle);
+      this.add(this.line);
+      this.line.didMount();
+    }
 
     two.bind('update', this.onUpdate.bind(this));
   }
@@ -51,5 +60,12 @@ export default class Group extends Two.Group {
     }
 
     return null;
+  }
+
+  // Returns the Group that represents that send block for this Group's receive
+  findRelatedGroup() {
+    if (this.data.is_send) return false;
+    // TODO filter out change and open blocks
+    return this.parent.children.find(c => c.data && c.data.hash === this.data.link);
   }
 }

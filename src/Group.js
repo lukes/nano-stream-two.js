@@ -21,12 +21,7 @@ export default class Group extends Two.Group {
 
   didMount() {
     this.circle = new Circle(this.data);
-    this.add(this.circle);
-    this.circle.didMount();
-
     this.text = new Text(this.circle, this.data);
-    this.add(this.text);
-    this.text.didMount();
 
     const relatedGroup = this.findRelatedGroup();
     if (relatedGroup) {
@@ -34,6 +29,12 @@ export default class Group extends Two.Group {
       this.add(this.line);
       this.line.didMount();
     }
+
+    this.add(this.circle);
+    this.circle.didMount();
+
+    this.add(this.text);
+    this.text.didMount();
 
     two.bind('update', this.onUpdate.bind(this));
   }

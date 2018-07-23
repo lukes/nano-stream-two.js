@@ -2,6 +2,7 @@ import Two from 'two.js';
 import TWEEN from '@tweenjs/tween.js';
 
 import two from './two';
+import { timeNow } from './utils';
 
 const formatTime = (seconds) => {
   if (seconds < 91) {
@@ -10,8 +11,6 @@ const formatTime = (seconds) => {
 
   return `${Math.trunc(seconds / 60)}m ago`;
 };
-
-const timeNow = () => (new Date()).getTime() / 1000;
 
 export default class Text extends Two.Text {
   constructor(circle, data) {

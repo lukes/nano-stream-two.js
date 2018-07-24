@@ -23,6 +23,8 @@ export default class Group extends Two.Group {
     this.circle = new Circle(this.data);
     this.text = new Text(this.circle, this.data);
 
+    // Draw the line first, so the other elements
+    // are drawn overtop
     const relatedGroup = this.findRelatedGroup();
     if (relatedGroup) {
       this.line = new Line(this.circle, relatedGroup.circle);

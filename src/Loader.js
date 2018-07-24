@@ -7,7 +7,6 @@ export default class Loader extends Two.Group {
   constructor() {
     super();
     this.timestamp = timeNow();
-    // this.visible = true;
   }
 
   get ageInSeconds() {

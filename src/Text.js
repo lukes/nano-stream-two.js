@@ -23,7 +23,6 @@ export default class Text extends Two.Text {
     this.opacity = 0.01;
     this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(TWEEN.Easing.Quadratic.In);
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
-    this.fadeInTween.start();
 
     // TODO logic to keep in view
     const { x } = circle.translation;
@@ -50,6 +49,7 @@ export default class Text extends Two.Text {
 
   didMount() {
     two.bind('update', this.onUpdate.bind(this));
+    this.fadeInTween.start();
   }
 
   dispose() {

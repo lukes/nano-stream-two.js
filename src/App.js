@@ -1,4 +1,5 @@
 import Background from './Background';
+import Burst from './Burst';
 import Group from './Group';
 import Loader from './Loader';
 
@@ -19,6 +20,10 @@ export default () => {
   const background = new Background();
   two.scene.add(background);
   background.didMount();
+
+  const burst = new Burst();
+  two.scene.add(burst);
+  burst.didMount();
 
   const loader = new Loader();
   two.scene.add(loader);

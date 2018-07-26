@@ -49,6 +49,7 @@ export default class Loader extends Two.Group {
   }
 
   onResize() {
+    // Perhaps another method of doing this can be seen here // See view-source:https://two.js.org/examples/gradients.html
     this.remove(this.text);
     this.createText();
   }

@@ -20,15 +20,21 @@ export default class Loader extends Two.Group {
   }
 
   didMount() {
-    const text = new Two.Text('Waiting to receive first block', two.width / 2, two.height / 2);
-    text.fill = '#fff';
-    this.add(text);
+    this.createText();
 
     two.bind('update', this.onUpdate.bind(this));
+    two.bind('resize', this.onResize.bind(this));
+  }
+
+  // Creating text in a method allows it to be recreated when the scene is resized
+  createText() {
+    this.text = new Two.Text('Waiting to receive first block', two.width / 2, two.height / 2);
+    this.text.fill = '#fff';
+    this.add(this.text);
   }
 
   dispose() {
-    two.remove(this).unbind('update', this.onUpdate.bind(this));
+    two.remove(this).unbind('update', this.onUpdate.bind(this)).unbind('resize', this.onResize.bind(this));
     delete this;
   }
 
@@ -40,5 +46,10 @@ export default class Loader extends Two.Group {
     }
 
     return null;
+  }
+
+  onResize() {
+    this.remove(this.text);
+    this.createText();
   }
 }

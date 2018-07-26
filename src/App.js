@@ -13,8 +13,6 @@ export default () => {
     group.didMount();
   };
 
-  window._debug = receiveData;
-
   two.appendTo(document.body);
 
   const background = new Background();

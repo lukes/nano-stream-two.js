@@ -6,7 +6,7 @@ import Text from './Text';
 
 import two from './two';
 
-export default class Group extends Two.Group {
+export default class Block extends Two.Group {
   constructor(data) {
     super();
 
@@ -15,7 +15,7 @@ export default class Group extends Two.Group {
     this.opacityCache = this.opacity;
   }
 
-  get isNewestGroup() {
+  get isNewestBlock() {
     return this === this.parent && this.parent.children.slice(-1)[0];
   }
 
@@ -25,9 +25,9 @@ export default class Group extends Two.Group {
 
     // Draw the line first, so the other elements
     // are drawn overtop
-    const relatedGroup = this.findRelatedGroup();
-    if (relatedGroup) {
-      this.line = new Line(this.circle, relatedGroup.circle);
+    const matchingSendBlock = this.findMatchingSendBlock();
+    if (matchingSendBlock) {
+      this.line = new Line(this.circle, matchingSendBlock.circle);
       this.add(this.line);
       this.line.didMount();
     }
@@ -65,10 +65,9 @@ export default class Group extends Two.Group {
     return null;
   }
 
-  // Returns the Group that represents that send block for this Group's receive
-  findRelatedGroup() {
+  // Returns the Block that represents that send block for this Block's receive
+  findMatchingSendBlock() {
     if (this.data.is_send) return false;
-    // TODO filter out change and open blocks
     return this.parent.children.find(c => c.data && c.data.hash === this.data.link);
   }
 }

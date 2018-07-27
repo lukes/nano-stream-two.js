@@ -40,7 +40,7 @@ export default class Text extends Two.Text {
   }
 
   get shouldBeOpaque() {
-    return this.parent.isNewestGroup || this.parent.isFocused;
+    return this.parent.isNewestBlock || this.parent.isFocused;
   }
 
   get ageInSeconds() {

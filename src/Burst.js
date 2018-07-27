@@ -7,6 +7,8 @@ export default class Burst extends Two.Rectangle {
   constructor() {
     super(two.width / 2, two.height / 2, two.width, two.height);
 
+    this.disposeWhenTransparent = false;
+
     const radius = Math.max(two.width, two.height);
 
     const radialGradient = two.makeRadialGradient(
@@ -20,7 +22,6 @@ export default class Burst extends Two.Rectangle {
     this.fill = radialGradient;
 
     this.opacity = 0.1;
-    this.disposeWhenTransparent = false;
     this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 150).easing(TWEEN.Easing.Quadratic.In);
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }, 3500).easing(TWEEN.Easing.Quadratic.Out);
   }
@@ -39,7 +40,7 @@ export default class Burst extends Two.Rectangle {
   }
 
   onUpdate(/* frameCount */) {
-    if (this.opacity < 1 && !this.fadeInTween.isPlaying()) {
+    if (this.opacity < 1 && !this.fadeInTween.isPlaying() && !this.disposeWhenTransparent) {
       this.fadeInTween.start();
     }
 

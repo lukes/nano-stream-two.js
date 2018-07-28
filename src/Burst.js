@@ -7,31 +7,19 @@ export default class Burst extends Two.Rectangle {
   constructor() {
     super(two.width / 2, two.height / 2, two.width, two.height);
 
-    this.disposeWhenTransparent = false;
-
-    const radius = Math.max(two.width, two.height);
-
-    const radialGradient = two.makeRadialGradient(
-      0, 0,
-      radius,
-      new Two.Stop(0, 'rgba(14, 124, 44, 1)', 1),
-      new Two.Stop(0.5, 'rgba(14, 124, 44, 0)', 0),
-    );
-
+    this.isWaitingForBlock = true;
+    this.hasStarted = false;
+    this.hasFinished = false;
+    this.radius = Math.max(two.width, two.height);
+    this.visible = false;
     this.noStroke();
-    this.fill = radialGradient;
 
-    this.opacity = 0.1;
-    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 150).easing(TWEEN.Easing.Quadratic.In);
-    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }, 3500).easing(TWEEN.Easing.Quadratic.Out);
+    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 150).easing(TWEEN.Easing.Sinusoidal.InOut);
+    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }, 3500).easing(TWEEN.Easing.Sinusoidal.InOut);
   }
 
   didMount() {
     two.bind('update', this.onUpdate.bind(this));
-    // two.bind('resize', () => {
-    //   // TODO redraw the background
-    //   // See view-source:https://two.js.org/examples/gradients.html
-    // });
   }
 
   dispose() {
@@ -39,22 +27,46 @@ export default class Burst extends Two.Rectangle {
     delete this;
   }
 
+  notifyOfNewBlock(block) {
+    if (this.isWaitingForBlock) { // Only have one burst at a time
+      this.isWaitingForBlock = false;
+      this.visible = true;
+      this.opacity = 0.01;
+
+      const { circle } = block;
+      const color = circle.colorFromBlockHash;
+
+      const x = circle.translation.x - (two.width / 2);
+      const y = circle.translation.y - (two.height / 2);
+
+      const radialGradient = two.makeRadialGradient(
+        x, y,
+        this.radius,
+        new Two.Stop(0, color.fade(0.2).string(), 1),
+        new Two.Stop(0.5, color.fade(1).string(), 0),
+      );
+
+      this.fill = radialGradient;
+    }
+  }
+
   onUpdate(/* frameCount */) {
-    if (this.opacity < 1 && !this.fadeInTween.isPlaying() && !this.disposeWhenTransparent) {
+    if (this.isWaitingForBlock) {
+      return;
+    }
+
+    if (!this.hasStarted) {
       this.fadeInTween.start();
-    }
-
-    if (this.opacity === 1 && !this.fadeOutTween.isPlaying()) {
-      this.disposeWhenTransparent = true;
+      this.hasStarted = true;
+    } else if (this.opacity === 1 && !this.hasFinished) {
+      this.hasFinished = true;
       this.fadeOutTween.start();
-    }
-
-    if (this.opacity === 0 && this.disposeWhenTransparent) {
-      this.dispose();
+    } else if (this.opacity === 0) {
+      this.isWaitingForBlock = true;
+      this.hasFinished = false;
+      this.hasStarted = false;
     }
 
     TWEEN.update();
-
-    return this;
   }
 }

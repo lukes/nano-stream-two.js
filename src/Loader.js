@@ -1,4 +1,5 @@
 import Two from 'two.js';
+import TWEEN from '@tweenjs/tween.js';
 
 import two from './two';
 import { timeNow } from './utils';
@@ -6,23 +7,23 @@ import { timeNow } from './utils';
 export default class Loader extends Two.Group {
   constructor() {
     super();
+    this.hasReceivedFirstBlock = false;
     this.timestamp = timeNow();
-  }
-
-  get ageInSeconds() {
-    return timeNow() - this.timestamp;
-  }
-
-  // Returns true while there are no Groups with block data in the scene
-  get shouldRemainVisible() {
-    return !this.parent.children.some(c => c.data);
+    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 });
   }
 
   didMount() {
     this.createText();
 
-    two.bind('update', this.onUpdate.bind(this));
     two.bind('resize', this.onResize.bind(this));
+  }
+
+  notifyOfNewBlock(/* block */) {
+    if (!this.hasReceivedFirstBlock) {
+      this.hasReceivedFirstBlock = true;
+      two.bind('update', this.onUpdate.bind(this));
+      this.fadeOutTween.start();
+    }
   }
 
   // Creating text in a method allows it to be recreated when the scene is resized
@@ -32,19 +33,16 @@ export default class Loader extends Two.Group {
     this.add(this.text);
   }
 
-  dispose() {
-    two.remove(this).unbind('update', this.onUpdate.bind(this)).unbind('resize', this.onResize.bind(this));
-    delete this;
-  }
-
   onUpdate(/* frameCount */) {
-    if (this.opacity <= 0.05) return this.dispose();
-
-    if (!this.shouldRemainVisible && this.ageInSeconds > 2) {
-      this.opacity -= 0.02;
+    if (this.disposed) {
+      return;
     }
 
-    return null;
+    if (this.opacity === 0) {
+      this.disposed = true;
+    } else {
+      TWEEN.update();
+    }
   }
 
   onResize() {

@@ -15,6 +15,8 @@ export default () => {
     const block = new Block(data);
     two.scene.add(block);
     block.didMount();
+
+    background.notifyOfNewBlock(block);
   };
 
   websocket.onmessage = (ev) => {

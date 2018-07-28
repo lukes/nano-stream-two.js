@@ -28,4 +28,9 @@ export default class Background extends Two.Group {
       // TODO redraw the background
     });
   }
+
+  notifyOfNewBlock(block) {
+    this.burst.notifyOfNewBlock(block);
+    this.loader.notifyOfNewBlock(block);
+  }
 }

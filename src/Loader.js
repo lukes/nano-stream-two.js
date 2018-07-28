@@ -34,13 +34,7 @@ export default class Loader extends Two.Group {
   }
 
   onUpdate(/* frameCount */) {
-    if (this.disposed) {
-      return;
-    }
-
-    if (this.opacity === 0) {
-      this.disposed = true;
-    } else {
+    if (this.opacity !== 0) {
       TWEEN.update();
     }
   }

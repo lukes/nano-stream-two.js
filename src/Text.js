@@ -12,7 +12,7 @@ const formatTime = (seconds) => {
   return `${Math.trunc(seconds / 60)}m ago`;
 };
 
-export default class Text extends Two.Text {
+export default class Text extends Two.Group {
   constructor(circle, data) {
     super();
 
@@ -25,18 +25,27 @@ export default class Text extends Two.Text {
     const { x } = circle.translation;
     const y = circle.translation.y + circle.radius + Text.SPACING;
 
-    this.value = this.message;
-    this.fill = '#FFF';
-    this.translation.set(x, y);
+    this.textTimeAgo = new Two.Text(this.textTimeAgoMessage, x, y);
+    this.textTimeAgo.fill = '#FFF';
+    this.add(this.textTimeAgo);
 
-    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(TWEEN.Easing.Quadratic.In);
-    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
+    this.textAmount = new Two.Text(this.textAmountMessage, x, y + Text.SPACING + 5);
+    this.textAmount.fill = '#FFF';
+    this.add(this.textAmount);
+
+    const easing = TWEEN.Easing.Quadratic.In;
+    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(easing);
+    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(easing);
   }
 
-  get message() {
+  get textTimeAgoMessage() {
+    return formatTime(this.ageInSeconds);
+  }
+
+  get textAmountMessage() {
     const sentOrReceived = this.data.is_send ? 'sent' : 'received';
 
-    return `${formatTime(this.ageInSeconds)} ${this.data.amount} ${sentOrReceived}`; // TODO handle formatting e- values.
+    return `${this.data.amount} ${sentOrReceived}`;
   }
 
   get shouldBeOpaque() {
@@ -68,10 +77,10 @@ export default class Text extends Two.Text {
       this.fadeOutTween.start();
     }
 
-    if (this.opacity > 0) this.value = this.message;
+    if (this.opacity > 0) this.textTimeAgo.value = this.textTimeAgoMessage;
 
     return this;
   }
 }
 
-Text.SPACING = 20;
+Text.SPACING = 15;

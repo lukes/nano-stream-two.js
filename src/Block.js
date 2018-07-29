@@ -1,4 +1,5 @@
 import Two from 'two.js';
+import TWEEN from '@tweenjs/tween.js';
 
 import Circle from './Circle';
 import Line from './Line';
@@ -12,7 +13,7 @@ export default class Block extends Two.Group {
 
     this.data = data;
     this.isFocused = false;
-    this.opacityCache = this.opacity;
+    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }, Block.TTL);
   }
 
   get isNewestBlock() {
@@ -38,6 +39,7 @@ export default class Block extends Two.Group {
     this.add(this.text);
     this.text.didMount();
 
+    this.fadeOutTween.start();
     two.bind('update', this.onUpdate.bind(this));
   }
 
@@ -49,17 +51,13 @@ export default class Block extends Two.Group {
   }
 
   onUpdate(/* frameCount */) {
-    if (this.opacity <= 0.05) return this.dispose();
+    if (this.opacity === 0) return this.dispose();
 
     if (this.isFocused) {
+      if (this.fadeOutTween.isPlaying()) this.fadeOutTween.stop();
       this.opacity = 1;
-    } else {
-      // maybe this could be a factor of age - so
-      // when you focus the tab after a period of it not being focused
-      // everything is opaque correctly
-      // TODO use tween for this too, to control timing.
-      this.opacityCache -= this.opacityCache * 0.0002;
-      this.opacity = this.opacityCache;
+    } else if (!this.fadeOutTween.isPlaying()) {
+      this.fadeOutTween.start();
     }
 
     return null;
@@ -71,3 +69,5 @@ export default class Block extends Two.Group {
     return this.parent.children.find(c => c.data && c.data.hash === this.data.link);
   }
 }
+
+Block.TTL = 1000 * 60 * 3; // ms

@@ -66,7 +66,5 @@ export default class Burst extends Two.Rectangle {
       this.hasFinished = false;
       this.hasStarted = false;
     }
-
-    TWEEN.update();
   }
 }

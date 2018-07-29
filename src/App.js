@@ -1,3 +1,5 @@
+import TWEEN from '@tweenjs/tween.js';
+
 import Background from './Background';
 import Block from './Block';
 
@@ -6,6 +8,10 @@ import websocket from './websocket';
 
 export default () => {
   two.appendTo(document.body);
+
+  two.bind('update', () => {
+    TWEEN.update();
+  });
 
   const background = new Background();
   two.scene.add(background);

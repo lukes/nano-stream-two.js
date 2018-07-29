@@ -21,7 +21,6 @@ export default class Loader extends Two.Group {
   notifyOfNewBlock(/* block */) {
     if (!this.hasReceivedFirstBlock) {
       this.hasReceivedFirstBlock = true;
-      two.bind('update', this.onUpdate.bind(this));
       this.fadeOutTween.start();
     }
   }
@@ -31,12 +30,6 @@ export default class Loader extends Two.Group {
     this.text = new Two.Text('Waiting to receive first block', two.width / 2, two.height / 2);
     this.text.fill = '#fff';
     this.add(this.text);
-  }
-
-  onUpdate(/* frameCount */) {
-    if (this.opacity !== 0) {
-      TWEEN.update();
-    }
   }
 
   onResize() {

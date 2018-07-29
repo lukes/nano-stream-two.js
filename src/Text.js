@@ -61,27 +61,11 @@ export default class Text extends Two.Text {
     // Fade in
     if (this.shouldBeOpaque) {
       if (!this.fadeInTween.isPlaying() && this.opacity === 0) {
-        if (this.fadeOutTween.isPlaying()) {
-          this.fadeOutTween.stop();
-        }
         this.fadeInTween.start();
       }
-
-      if (this.opacity < 1) {
-        TWEEN.update();
-      }
     // Fade out
-    } else {
-      if (!this.fadeOutTween.isPlaying() && this.opacity === 1 && this.ageInSeconds > 5) {
-        if (this.fadeInTween.isPlaying()) {
-          this.fadeInTween.stop();
-        }
-        this.fadeOutTween.start();
-      }
-
-      if (this.opacity > 0) {
-        TWEEN.update();
-      }
+    } else if (!this.fadeOutTween.isPlaying() && this.opacity === 1 && this.ageInSeconds > 5) {
+      this.fadeOutTween.start();
     }
 
     if (this.opacity > 0) this.value = this.message;

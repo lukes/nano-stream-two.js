@@ -22,11 +22,6 @@ export default class Burst extends Two.Rectangle {
     two.bind('update', this.onUpdate.bind(this));
   }
 
-  dispose() {
-    two.remove(this).unbind('update', this.onUpdate.bind(this));
-    delete this;
-  }
-
   notifyOfNewBlock(block) {
     if (this.isWaitingForBlock) { // Only have one burst at a time
       this.isWaitingForBlock = false;

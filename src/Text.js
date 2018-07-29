@@ -21,9 +21,6 @@ export default class Text extends Two.Text {
     this.timestamp = timeNow();
 
     this.opacity = 0.01;
-    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(TWEEN.Easing.Quadratic.In);
-    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
-
     // TODO logic to keep in view
     const { x } = circle.translation;
     const y = circle.translation.y + circle.radius + Text.SPACING;
@@ -31,6 +28,9 @@ export default class Text extends Two.Text {
     this.value = this.message;
     this.fill = '#FFF';
     this.translation.set(x, y);
+
+    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(TWEEN.Easing.Quadratic.In);
+    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(TWEEN.Easing.Quadratic.In);
   }
 
   get message() {

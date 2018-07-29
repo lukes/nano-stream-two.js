@@ -13,6 +13,10 @@ export default class Block extends Two.Group {
 
     this.data = data;
     this.isFocused = false;
+
+    this.circle = new Circle(this.data);
+    this.text = new Text(this.circle, this.data);
+
     this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }, Block.TTL);
   }
 
@@ -21,9 +25,6 @@ export default class Block extends Two.Group {
   }
 
   didMount() {
-    this.circle = new Circle(this.data);
-    this.text = new Text(this.circle, this.data);
-
     // Draw the line first, so the other elements
     // are drawn overtop
     const matchingSendBlock = this.findMatchingSendBlock();

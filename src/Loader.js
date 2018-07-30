@@ -27,7 +27,7 @@ export default class Loader extends Two.Group {
 
   // Creating text in a method allows it to be recreated when the scene is resized
   createText() {
-    this.text = new Two.Text('Waiting to receive first block', two.width / 2, two.height / 2);
+    this.text = new Two.Text('Waiting To Receive First Block', two.width / 2, two.height / 2);
     this.text.fill = '#fff';
     this.add(this.text);
   }

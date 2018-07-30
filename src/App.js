@@ -23,6 +23,8 @@ export default () => {
     block.didMount();
 
     background.notifyOfNewBlock(block);
+
+    document.title = `Nano: ${data.amount} ${data.is_send ? 'sent' : 'received'}`;
   };
 
   websocket.onmessage = (ev) => {

@@ -45,23 +45,31 @@ export default class Block extends Two.Group {
   }
 
   dispose() {
-    this.children.forEach(child => child.dispose());
+    this.visible = false;
+    this.children.forEach((child) => {
+      this.remove(child);
+      child.visible = false;
+    });
     two.remove(this).unbind('update', this.onUpdate.bind(this));
     console.debug(`disposed ${this.id}`);
-    delete this;
   }
 
   onUpdate(/* frameCount */) {
-    if (this.opacity === 0) return this.dispose();
+    if (!this.visible) return;
+
+    if (this.opacity === 0) {
+      this.dispose();
+      return;
+    }
 
     if (this.isFocused) {
-      if (this.fadeOutTween.isPlaying()) this.fadeOutTween.stop();
+      if (this.fadeOutTween.isPlaying()) {
+        this.fadeOutTween.stop();
+      }
       this.opacity = 1;
     } else if (!this.fadeOutTween.isPlaying()) {
       this.fadeOutTween.start();
     }
-
-    return null;
   }
 
   // Returns any Block in the scene that is either the matching

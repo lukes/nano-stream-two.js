@@ -46,11 +46,6 @@ export default class Circle extends Two.Circle {
     }, false);
   }
 
-  dispose() {
-    two.remove(this).unbind('update', this.onUpdate.bind(this));
-    delete this;
-  }
-
   onUpdate(/* frameCount */) {
     // No-op for now
     return this;

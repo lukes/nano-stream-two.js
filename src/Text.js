@@ -61,12 +61,9 @@ export default class Text extends Two.Group {
     this.fadeInTween.start();
   }
 
-  dispose() {
-    two.remove(this).unbind('update', this.onUpdate.bind(this));
-    delete this;
-  }
-
   onUpdate(/* frameCount */) {
+    if (!this.visible) return;
+
     // Fade in
     if (this.shouldBeOpaque) {
       if (!this.fadeInTween.isPlaying() && this.opacity === 0) {
@@ -78,8 +75,6 @@ export default class Text extends Two.Group {
     }
 
     if (this.opacity > 0) this.textTimeAgo.value = this.textTimeAgoMessage;
-
-    return this;
   }
 }
 

@@ -34,8 +34,9 @@ export default class Text extends Two.Group {
     this.add(this.textAmount);
 
     const easing = TWEEN.Easing.Quadratic.In;
-    this.fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(easing);
-    this.fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(easing);
+    const fadeInTween = new TWEEN.Tween(this).to({ opacity: 1 }, 500).easing(easing);
+    const fadeOutTween = new TWEEN.Tween(this).to({ opacity: 0 }).easing(easing).delay(5000);
+    this.fadeTween = fadeInTween.chain(fadeOutTween);
   }
 
   get textTimeAgoMessage() {
@@ -58,7 +59,7 @@ export default class Text extends Two.Group {
 
   didMount() {
     two.bind('update', this.onUpdate.bind(this));
-    this.fadeInTween.start();
+    this.fadeTween.start();
   }
 
   onUpdate(/* frameCount */) {
@@ -66,14 +67,10 @@ export default class Text extends Two.Group {
 
     // Fade in
     if (this.shouldBeOpaque) {
-      if (!this.fadeInTween.isPlaying() && this.opacity === 0) {
-        this.fadeInTween.start();
+      if (!this.fadeTween.isPlaying() && this.opacity === 0) {
+        this.fadeTween.start();
       }
-    // Fade out
-    } else if (!this.fadeOutTween.isPlaying() && this.opacity === 1 && this.ageInSeconds > 5) {
-      this.fadeOutTween.start();
     }
-
     if (this.opacity > 0) this.textTimeAgo.value = this.textTimeAgoMessage;
   }
 }

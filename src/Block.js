@@ -27,9 +27,9 @@ export default class Block extends Two.Group {
   didMount() {
     // Draw the line first, so the other elements
     // are drawn overtop
-    const matchingSendBlock = this.findMatchingSendBlock();
-    if (matchingSendBlock) {
-      this.line = new Line(this.circle, matchingSendBlock.circle);
+    const matchingBlock = this.findMatchingBlock();
+    if (matchingBlock) {
+      this.line = new Line(this.circle, matchingBlock.circle);
       this.add(this.line);
       this.line.didMount();
     }
@@ -64,9 +64,15 @@ export default class Block extends Two.Group {
     return null;
   }
 
-  // Returns the Block that represents that send block for this Block's receive
-  findMatchingSendBlock() {
-    if (this.data.is_send) return false;
+  // Returns any Block in the scene that is either the matching
+  // 'send' to this 'receive' block, or 'receive' to this 'send' block.
+  //
+  // A 'receive' block will have the 'send' block's hash in its link property.
+  findMatchingBlock() {
+    if (this.data.is_send) {
+      return this.parent.children.find(c => c.data && c.data.link === this.data.hash);
+    }
+
     return this.parent.children.find(c => c.data && c.data.hash === this.data.link);
   }
 }

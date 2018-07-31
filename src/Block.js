@@ -85,4 +85,4 @@ export default class Block extends Two.Group {
   }
 }
 
-Block.TTL = 1000 * 60 * 3; // ms
+Block.TTL = 1000 * 60 * 1; // ms

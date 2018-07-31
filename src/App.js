@@ -6,6 +6,8 @@ import Block from './Block';
 import two from './two';
 import websocket from './websocket';
 
+const documentTitle = data => `Nano: ${data.amount} ${data.is_send ? 'sent' : 'received'}`;
+
 export default () => {
   two.appendTo(document.body);
 
@@ -24,7 +26,7 @@ export default () => {
 
     background.notifyOfNewBlock(block);
 
-    document.title = `Nano: ${data.amount} ${data.is_send ? 'sent' : 'received'}`;
+    document.title = documentTitle(data);
   };
 
   websocket.onmessage = (ev) => {

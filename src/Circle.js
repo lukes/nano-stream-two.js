@@ -26,7 +26,6 @@ export default class Circle extends Two.Circle {
   }
 
   didMount() {
-    two.bind('update', this.onUpdate.bind(this));
     two.update(); // Force update so we have an element to work with
 
     const { elem } = this._renderer;
@@ -44,11 +43,6 @@ export default class Circle extends Two.Circle {
     elem.addEventListener('mouseout', () => {
       this.parent.isFocused = false;
     }, false);
-  }
-
-  onUpdate(/* frameCount */) {
-    // No-op for now
-    return this;
   }
 
   // Returns a radius determined by the amount of NANO in the data,

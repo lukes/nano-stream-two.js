@@ -21,7 +21,9 @@ export default class Block extends Two.Group {
   }
 
   get isNewestBlock() {
-    return this === this.parent && this.parent.children.slice(-1)[0];
+    if (!this.parent) return false;
+
+    return this === this.parent.children.slice(-1)[0];
   }
 
   didMount() {
